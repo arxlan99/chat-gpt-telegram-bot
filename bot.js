@@ -9,7 +9,6 @@ const startBot = () => {
 
   // give first message without prompt
   bot.onText(/\/start/, (msg) => {
-    console.log('hi i am here', msg.chat.id);
     bot.sendMessage(
       msg.chat.id,
       `
@@ -192,7 +191,6 @@ const startBot = () => {
       );
       bot.sendMessage(msg.chat.id, returnMessage);
     } catch (error) {
-      console.log(JSON.stringify(error, null, 2));
       bot.sendMessage(
         msg.chat.id,
         'There was an error, please control your API key'
