@@ -1,5 +1,4 @@
 const TelegramBot = require('node-telegram-bot-api');
-const { Configuration, OpenAIApi } = require('openai');
 const models = require('./constants/models');
 const User = require('./models/userModel');
 const createTurbo = require('./utils/gpt-3.5-turbo');
@@ -7,8 +6,10 @@ const createTurbo = require('./utils/gpt-3.5-turbo');
 const startBot = () => {
   const token = process.env.TELEGRAM_TOKEN;
   const bot = new TelegramBot(token, { polling: true });
+
   // give first message without prompt
   bot.onText(/\/start/, (msg) => {
+    console.log('hi i am here', msg.chat.id);
     bot.sendMessage(
       msg.chat.id,
       `

@@ -9,7 +9,11 @@ const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
