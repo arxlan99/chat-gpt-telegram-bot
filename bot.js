@@ -3,10 +3,10 @@ const models = require('./constants/models');
 const User = require('./models/userModel');
 const createTurbo = require('./utils/gpt-3.5-turbo');
 
-const startBot = () => {
-  const token = process.env.TELEGRAM_TOKEN;
-  const bot = new TelegramBot(token, { polling: true });
+const token = process.env.TELEGRAM_TOKEN;
+const bot = new TelegramBot(token, { polling: true });
 
+const startBot = () => {
   // give first message without prompt
   bot.onText(/\/start/, (msg) => {
     bot.sendMessage(
