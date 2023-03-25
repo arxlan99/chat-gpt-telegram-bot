@@ -122,16 +122,16 @@ const startBot = () => {
   bot.onText(/\/getapikey/, async (msg) => {
     const userId = msg.from.id;
 
-    const apiKey = await User.findOne({ userId: userId }).select('apiKey');
+    const res = await User.findOne({ userId: userId }).select('apiKey');
 
-    if (!apiKey) {
+    if (!res) {
       bot.sendAnimation(
         msg.chat.id,
         'https://media.giphy.com/media/3o7TKSjRrfIPjeiVyQ/giphy.gif'
       );
       bot.sendMessage(msg.chat.id, 'You have not set your OpenAI API key yet!');
     } else {
-      bot.sendMessage(msg.chat.id, `Your OpenAI API key is: ${apiKey}`);
+      bot.sendMessage(msg.chat.id, `Your OpenAI API key is: ${res.apiKey}`);
     }
   });
 

@@ -8,6 +8,8 @@ require('dotenv').config();
 const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 
+startBot();
+
 const app = express();
 app.use(
   cors({
@@ -28,7 +30,6 @@ mongoose.connection.on('connecting', () => {
 // if mongoose is ready, start the bot
 mongoose.connection.on('connected', () => {
   console.log('MongoDB connected!');
-  startBot();
 });
 
 app.get('/', (req, res) => {
@@ -38,22 +39,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
-/* const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-
-const port = process.env.PORT || 4000;
-
-const app = express();
-
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
- */
