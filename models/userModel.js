@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  modelContent: {
+    type: String,
+    required: false,
+    default: 'You are a helpful assistant.',
+  },
 });
 
 const User = mongoose.model('User', userSchema);

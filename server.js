@@ -8,8 +8,6 @@ require('dotenv').config();
 const uri = process.env.MONGO_URI;
 const port = process.env.PORT || 3000;
 
-startBot();
-
 const app = express();
 app.use(
   cors({
@@ -31,6 +29,8 @@ mongoose.connection.on('connecting', () => {
 mongoose.connection.on('connected', () => {
   console.log('MongoDB connected!');
 });
+
+startBot();
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
