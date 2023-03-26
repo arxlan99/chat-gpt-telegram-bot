@@ -1,10 +1,12 @@
 const TelegramBot = require('node-telegram-bot-api');
 const models = require('./constants/models');
+const Message = require('./models/messageModel');
 const User = require('./models/userModel');
 const createTurbo = require('./utils/gpt-3.5-turbo');
 const createGpt4 = require('./utils/gpt-4');
 
-const token = process.env.TELEGRAM_TOKEN;
+// const token = process.env.TELEGRAM_TOKEN;
+const token = '6054692269:AAG0Zd_M9CiOruEkmlH2N2bJXWbF1t-zGUQ';
 const bot = new TelegramBot(token, { polling: true });
 
 const startBot = () => {
@@ -29,6 +31,7 @@ const startBot = () => {
     { command: '/setapikey', description: 'Set the API key' },
     { command: '/getapikey', description: 'Get the API key' },
     { command: '/getmodel', description: 'Get the current model' },
+    { command: '/getallmessages', description: 'Get all messages' },
     { command: '/chat', description: 'Chat with the bot' },
     { command: '/setmodelcontent', description: 'Set the model content' },
     {
@@ -75,6 +78,8 @@ const startBot = () => {
         /getmodel - Get the current model
 
         /getapikey - Get the current API key
+
+        /getallmessages - Get all the messages
       `,
       {
         parse_mode: 'HTML',
@@ -229,6 +234,20 @@ const startBot = () => {
     bot.sendMessage(msg.chat.id, `Current model: ${openai.modelId}`);
   });
 
+  bot.onText(/\/getallmessages/, async (msg) => {
+    const userId = msg.from.id;
+
+    const { message } = Message.find({ userId: userId });
+    if (!message) {
+      bot.sendMessage(msg.chat.id, 'You have not sent any messages yet!');
+    } else {
+      bot.sendMessage(
+        msg.chat.id,
+        'Your messages: ' + JSON.stringify(message, null, 2)
+      );
+    }
+  });
+
   bot.onText(/\/deleteApiKey/, async (msg) => {
     const userId = msg.from.id;
     const user = await User.findOneAndUpdate(
@@ -250,7 +269,7 @@ const startBot = () => {
     bot.sendMessage(msg.chat.id, 'There was an error deleting your API key');
   });
 
-  bot.onText(/\/chat/, async (msg) => {
+  bot.onText(/\/chat/, async (msg, match) => {
     const userId = msg.from.id;
     const user = await User.findOne({ userId: userId });
 
@@ -271,6 +290,14 @@ const startBot = () => {
     }
 
     prompt = msg?.text?.replace('/chat', '');
+
+    if (!prompt) {
+      bot.sendMessage(
+        msg.chat.id,
+        'Please enter a prompt, e.g. /chat Hello, how are you?'
+      );
+      return;
+    }
 
     try {
       if (user.model === 'gpt-3.5-turbo') {
