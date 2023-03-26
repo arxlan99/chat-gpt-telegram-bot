@@ -46,7 +46,7 @@ The ChatGPT Telegram Bot is a simple chatbot that uses OpenAI's GPT model to res
 
 **Clone the repository:**
 ```js
-git clone https://github.com/YOUR_USERNAME/chatgpt-telegram-bot.git
+git clone https://github.com/arxlan99/chat-gpt-telegram-bot.git
 ```
 **Install the dependencies:**
 
