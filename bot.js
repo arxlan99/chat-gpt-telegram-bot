@@ -5,8 +5,7 @@ const User = require('./models/userModel');
 const createTurbo = require('./utils/gpt-3.5-turbo');
 const createGpt4 = require('./utils/gpt-4');
 
-// const token = process.env.TELEGRAM_TOKEN;
-const token = '6054692269:AAG0Zd_M9CiOruEkmlH2N2bJXWbF1t-zGUQ';
+const token = process.env.TELEGRAM_TOKEN;
 const bot = new TelegramBot(token, { polling: true });
 
 const startBot = () => {
