@@ -234,9 +234,9 @@ const startBot = () => {
   });
 
   bot.onText(/\/getallmessages/, async (msg) => {
-    const userId = msg.from.id;
+    const userId = msg.chat.id;
 
-    const { message } = Message.find({ userId: userId });
+    const { message } = await Message.findOne({ user: userId });
     if (!message) {
       bot.sendMessage(msg.chat.id, 'You have not sent any messages yet!');
     } else {
